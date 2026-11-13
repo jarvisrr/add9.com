@@ -46,4 +46,4 @@ If add9’s data practices change, we will update this page and its effective da
 
 ## Contact
 
-For privacy questions, or to request access, correction, or deletion of personal information available to us, contact Guangxing Ren at [jarvisrenapps@outlook.com](mailto:jarvisrenapps@outlook.com).
+For privacy questions, or to request access, correction, or deletion of personal information available to us, contact [jarvisrenapps@outlook.com](mailto:jarvisrenapps@outlook.com).
