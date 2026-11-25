@@ -1,0 +1,14 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: *
+Allow: /
+Disallow: /scripts/
+
+Sitemap: https://jarvisrr.github.io/add9.com/sitemap.xml
