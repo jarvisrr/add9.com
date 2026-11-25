@@ -2,8 +2,6 @@
   "use strict";
 
   var audioCtx = null;
-  var activeProgTimers = [];
-  var activeProgBtn = null;
 
   function getCtx() {
     var AC = window.AudioContext || window.webkitAudioContext;
@@ -78,24 +76,6 @@
     }
   }
 
-  function clearProgTimers() {
-    activeProgTimers.forEach(function (id) {
-      window.clearTimeout(id);
-    });
-    activeProgTimers = [];
-    document.querySelectorAll(".prog-step.is-active").forEach(function (el) {
-      el.classList.remove("is-active");
-    });
-    if (activeProgBtn) {
-      activeProgBtn.classList.remove("is-playing");
-      activeProgBtn.setAttribute("aria-pressed", "false");
-      var lbl = activeProgBtn.querySelector("span");
-      var defText = activeProgBtn.getAttribute("data-label-play");
-      if (lbl && defText) lbl.textContent = defText;
-      activeProgBtn = null;
-    }
-  }
-
   function setShowcaseIndex(root, idx) {
     var imgs = root.querySelectorAll("[data-screen-img]");
     var count = imgs.length;
@@ -134,38 +114,6 @@
       if (!sc) return;
       var cur = parseInt(sc.getAttribute("data-active-idx") || "0", 10);
       setShowcaseIndex(sc, cur + 1);
-      return;
-    }
-
-    var progBtn = ev.target.closest("[data-play-progression]");
-    if (progBtn) {
-      var panel = progBtn.closest(".guide-panel");
-      if (!panel) return;
-      if (activeProgBtn === progBtn) {
-        clearProgTimers();
-        return;
-      }
-      clearProgTimers();
-      var steps = Array.prototype.slice.call(panel.querySelectorAll(".prog-step[data-midi]"));
-      activeProgBtn = progBtn;
-      progBtn.classList.add("is-playing");
-      progBtn.setAttribute("aria-pressed", "true");
-      var lbl = progBtn.querySelector("span");
-      var stopText = progBtn.getAttribute("data-label-stop");
-      if (lbl && stopText) lbl.textContent = stopText;
-      steps.forEach(function (step, i) {
-        var id = window.setTimeout(function () {
-          steps.forEach(function (s) {
-            s.classList.toggle("is-active", s === step);
-          });
-          strumMidiList(parseMidis(step.getAttribute("data-midi")), null);
-        }, i * 1150);
-        activeProgTimers.push(id);
-      });
-      var endId = window.setTimeout(function () {
-        clearProgTimers();
-      }, steps.length * 1150 + 400);
-      activeProgTimers.push(endId);
       return;
     }
 
