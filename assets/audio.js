@@ -2,6 +2,7 @@
   "use strict";
 
   var audioCtx = null;
+  var activeProgTimers = [];
 
   function getCtx() {
     var AC = window.AudioContext || window.webkitAudioContext;
@@ -13,6 +14,17 @@
 
   function midiToFreq(midi) {
     return 440 * Math.pow(2, (midi - 69) / 12);
+  }
+
+  function parseMidis(raw) {
+    return (raw || "")
+      .split(",")
+      .map(function (n) {
+        return parseInt(n, 10);
+      })
+      .filter(function (n) {
+        return !isNaN(n);
+      });
   }
 
   function pluckNote(ctx, freq, startTime, duration) {
@@ -65,19 +77,44 @@
     }
   }
 
+  function clearProgTimers() {
+    activeProgTimers.forEach(function (id) {
+      window.clearTimeout(id);
+    });
+    activeProgTimers = [];
+    document.querySelectorAll(".prog-step.is-active").forEach(function (el) {
+      el.classList.remove("is-active");
+    });
+  }
+
   document.addEventListener("click", function (ev) {
+    var progBtn = ev.target.closest("[data-play-progression]");
+    if (progBtn) {
+      var panel = progBtn.closest(".guide-panel");
+      if (!panel) return;
+      clearProgTimers();
+      var steps = Array.prototype.slice.call(panel.querySelectorAll(".prog-step[data-midi]"));
+      progBtn.classList.add("is-playing");
+      steps.forEach(function (step, i) {
+        var id = window.setTimeout(function () {
+          steps.forEach(function (s) {
+            s.classList.toggle("is-active", s === step);
+          });
+          strumMidiList(parseMidis(step.getAttribute("data-midi")), null);
+        }, i * 1150);
+        activeProgTimers.push(id);
+      });
+      var endId = window.setTimeout(function () {
+        clearProgTimers();
+        progBtn.classList.remove("is-playing");
+      }, steps.length * 1150 + 400);
+      activeProgTimers.push(endId);
+      return;
+    }
+
     var btn = ev.target.closest("[data-midi]");
     if (btn) {
-      var raw = btn.getAttribute("data-midi") || "";
-      var midis = raw
-        .split(",")
-        .map(function (n) {
-          return parseInt(n, 10);
-        })
-        .filter(function (n) {
-          return !isNaN(n);
-        });
-      strumMidiList(midis, btn);
+      strumMidiList(parseMidis(btn.getAttribute("data-midi")), btn);
       return;
     }
 
@@ -95,16 +132,7 @@
         if (match) {
           var playBtn = p.querySelector("[data-midi]");
           if (playBtn) {
-            var rawM = playBtn.getAttribute("data-midi") || "";
-            var ms = rawM
-              .split(",")
-              .map(function (n) {
-                return parseInt(n, 10);
-              })
-              .filter(function (n) {
-                return !isNaN(n);
-              });
-            strumMidiList(ms, playBtn);
+            strumMidiList(parseMidis(playBtn.getAttribute("data-midi")), playBtn);
           }
         }
       });

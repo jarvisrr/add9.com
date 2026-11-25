@@ -144,6 +144,21 @@ svg {
   color: var(--ink);
 }
 
+.nav-links a.btn-primary {
+  color: #f6f8fc;
+}
+
+.nav-links a.btn-primary:hover {
+  color: #f6f8fc;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-links a.btn-primary,
+  .nav-links a.btn-primary:hover {
+    color: #111a2c;
+  }
+}
+
 .lang-switch {
   padding: 5px 10px;
   border: 1px solid var(--line);
@@ -401,6 +416,151 @@ svg {
 
 .genre-row:hover {
   background: var(--surface-alt);
+}
+
+.genre-list > .genre-row:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* App Screenshot Showcase */
+.screens-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.screen-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.screen-frame {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--slate-deep);
+  box-shadow: var(--shadow);
+}
+
+.screen-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.screen-figure figcaption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.screen-figure figcaption strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.96rem;
+  margin-bottom: 2px;
+}
+
+/* Playable Chord Progression & Playing Tips on Genre Pages */
+.guide-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-top: 28px;
+}
+
+.prog-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin-bottom: 18px;
+}
+
+.prog-head h2 {
+  margin: 0;
+  font-size: 1.32rem;
+  letter-spacing: -0.02em;
+}
+
+.prog-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.prog-step {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface-alt);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.prog-step:hover,
+.prog-step.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+.prog-step-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.prog-step-chord {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.prog-step-fret {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.prog-why {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 68ch;
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 0.94rem;
+  display: grid;
+  gap: 6px;
+}
+
+.tips-list strong {
+  color: var(--ink);
+}
+
+.source-note {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 0.86rem;
+  color: var(--muted);
 }
 
 .genre-row-top {
@@ -744,6 +904,12 @@ svg {
   .genre-list,
   .cap-grid {
     grid-template-columns: 1fr;
+  }
+  .screens-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .prog-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
