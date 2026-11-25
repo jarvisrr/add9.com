@@ -22,7 +22,93 @@ APP_STORE_CN = "https://apps.apple.com/cn/app/add9-no-more-boring-chords/id68343
 APP_ID = "6834397836"
 TODAY = datetime.date.today().isoformat()
 
+NOTE_NAMES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+NOTE_NAMES_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 NOTE_NAMES = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+
+# Sharp-oriented chord roots in standard guitar theory (D, A, E, B, F#, C#, G)
+SHARP_ROOT_PCS = {1, 2, 4, 6, 7, 9, 11}
+
+
+def note_names_for_chord(root_pc: int, quality: str) -> list[str]:
+    q = quality.lower()
+    if "b5" in q or "b9" in q or "b13" in q or "dim" in q:
+        return NOTE_NAMES_FLAT
+    if (root_pc % 12) in SHARP_ROOT_PCS:
+        return NOTE_NAMES_SHARP
+    if (root_pc % 12) in (3, 5, 8, 10):
+        return NOTE_NAMES_FLAT
+    # Root C: minor/dominant lean flat (Eb, Bb), major/add9 lean sharp/natural
+    if q.startswith("m") and not q.startswith("maj"):
+        return NOTE_NAMES_FLAT
+    if q in ("7", "9", "13", "7sus4"):
+        return NOTE_NAMES_FLAT
+    return NOTE_NAMES_SHARP
+
+
+FAMILY_DESC_ZH: dict[str, str] = {
+    "jazz-standard-shells": "分布在两组低音弦上的三音 Shell 指型，省去五音，突出三音与七音。",
+    "jazz-standard-inversions": "同一七和弦在不同低音（转位）下的声部排列。",
+    "jazz-standard-major-extensions": "根音位于 A 弦、D 弦与低音 E 弦的大六和弦与大九延伸指型。",
+    "jazz-standard-minor-extensions": "加入九音的小七和弦，以及四度叠置的小十一指型。",
+    "jazz-standard-turnarounds": "用于向小调和弦制造张力并顺滑解决的属和弦与半减七指型。",
+    "jpop-standard-sevenths": "C 调中加七音的 IV、iii、vi 级和弦，以及常用来替代 iii 级的大三和弦 III。",
+    "jpop-standard-dominants": "兼顾小 v 级与小 iv 级的拇指横按小七和弦，以及带回主和弦的 F/G。",
+    "jpop-standard-ninths": "用于 vi 级的开放小九和弦，以及完整的属九和弦指型。",
+    "jpop-standard-held-fifth": "保持上方两根弦音高不变、只移动低音手指的进行指法（整理自 Yorushika 吉他编配分析）。",
+    "jpop-standard-rock-colors": "A 弦根音的大七、add9 与 add11，以及为失真音色精简的三音七和弦与三和弦。",
+    "math-rock-standard-upper-sevenths": "根音在 D 弦上的紧凑高音区七和弦指型。",
+    "math-rock-standard-ninths": "分别落在三组不同琴弦上的 Amaj9 与 Bm9 延伸指型。",
+    "math-rock-standard-low-sevenths": "根音在低音 E 弦上的四音大七、小七、属七与半减七和弦。",
+    "math-rock-standard-a-sevenths": "根音在 A 弦上的同款四种七和弦，外加一个属九和弦。",
+    "math-rock-facgce-drones": "FACGCE 调弦（夹 4 品教学常见）中的固定空弦共鸣指型。",
+    "midwest-emo-standard-pedals": "在 D、G、B 弦上移动三指指型，同时让高音 E 空弦持续共鸣。",
+    "midwest-emo-standard-low-shape": "低音 E、D、G 弦上的两指指型沿指板滑动，上方空弦持续发声。",
+    "midwest-emo-standard-shells": "标准调弦下紧凑利落的大七与小七指型。",
+    "midwest-emo-standard-ninths": "根音在低音 E 弦上的四弦大九与小九和弦。",
+    "midwest-emo-facgce-open-extensions": "在 FACGCE 调弦中，将宽广空弦共鸣与紧凑小调指型形成对比。",
+    "city-pop-standard-compact": "根音在 A 弦上、全按弦无空弦的紧凑指型，便于精准制音。",
+    "city-pop-standard-upper-strings": "根音在 D 弦或 G 弦上的三至四弦指型，专为切音节奏伴奏设计。",
+    "city-pop-standard-dominants": "升五、降九与升九变化属和弦，对照作为基础的四音标准属七指型。",
+    "city-pop-standard-slash": "位于两组弦上的大三和弦转位（低音高于根音一个全音，如 F/G）。",
+    "neo-soul-rnb-standard-ninths": "涵盖开放把位、紧凑中音区与全把位的九和弦指型。",
+    "neo-soul-rnb-standard-hammer-shells": "可击弦过渡到大七和弦的三音六和弦，以及低音 E 空弦上的四度叠置六九和弦。",
+    "neo-soul-rnb-standard-sevenths": "包含高音弦转位、宽音程排列与完整大横按的七和弦。",
+    "neo-soul-rnb-standard-dominants": "带有升九、降十三与十三音色彩的变化属和弦指型。",
+    "shoegaze-standard-drones": "低音或和弦切换时，上方高音空弦保持持续共鸣。",
+    "shoegaze-standard-sevenths": "低音区 Shell、紧凑中音区指型，以及 A 弦根音的大九和弦。",
+    "shoegaze-standard-suspensions": "强力和弦、挂二（sus2）与挂留七和弦指型。",
+    "shoegaze-standard-slid-shape": "低音三弦的「根音—五音—八度」指型沿指板平移，同时让 G 弦与 B 弦空弦持续共鸣。",
+    "shoegaze-standard-held-top": "保留 B 弦 3 品不动的开放把位和弦，扫弦时让前后和弦自然交融（Slowdive 风格节奏）。",
+    "lofi-standard-sevenths": "低音区 Shell 指型，以及以五音或三音作低音的七和弦转位。",
+    "lofi-standard-extensions": "适合柔和伴奏的四弦延伸和弦指型。",
+    "lofi-standard-shared-top": "高音保持共同音的循环进行指型，最后落回经典 ii–V–I。",
+    "lofi-standard-wide": "低音两弦按根音与五音，跳过 D 弦再接高音声部的宽音程指型。",
+    "lofi-standard-low-barre": "可从低一品滑入的小七和弦，以及同一组弦上的十三和弦。",
+    "indie-standard-jangle": "A 弦根音的小七、挂留九与大七和弦指型。",
+    "indie-standard-barre-drones": "大三横按指型沿指板滑动，同时放开高音两根空弦持续共鸣。",
+    "indie-standard-moved-c": "将开放 C 和弦手型沿指板上移，同时保留两根空弦不变。",
+    "indie-standard-power-drones": "在 A 弦与 D 弦上按两至三音五度指型，配合上方空弦共鸣。",
+    "indie-standard-a-drones": "在开放 A 弦与开放高音 E 弦之间，用中间弦构造轻巧和弦。",
+    "indie-standard-moved-d": "保持低音 D 空弦不变，把开放 D 指型在高音弦上平移。",
+    "indie-whole-step-up-song-tuning": "在升全音调弦下按相同把位所对应的实际发声和弦名。",
+    "indie-open-e-open-pedals": "Open E 调弦中的固定空弦共鸣指型。",
+    "indie-open-e-movable": "Open E 调弦下的直按大三和弦、加六与挂九指型。",
+    "bossa-nova-standard-sixths": "根音在低音 E 弦与 A 弦上、用六音替代七音的四弦大调指型。",
+    "bossa-nova-standard-minors": "适用于小调乐段与转调的紧凑小和弦指型。",
+    "bossa-nova-standard-dominants": "常用于桥段的四弦属和弦，其中包含降五音的变化色彩。",
+    "bossa-nova-standard-thirteenths": "回到主和弦的终止衔接：单指回落一品即可把挂留和弦转为属和弦。",
+    "bedroom-pop-standard-open-sevenths": "开放把位的大七、小七与属七和弦指型。",
+    "bedroom-pop-standard-a-barre": "基于开放 A 指型延伸出的横按和弦（Steve Lacy 风格常见）。",
+    "bedroom-pop-standard-e-barre": "可按半音滑动的小七大横按，搭配两个四音指型。",
+    "bedroom-pop-standard-passing": "带两根空弦、用于衔接相邻和弦的减和弦，以及开放属七和弦（Mac DeMarco / Clairo 风格常见）。",
+    "bedroom-pop-open-d-drone-bass": "在相同的 Open D 空弦共鸣上，仅靠低音变化切换不同和弦。",
+    "bedroom-pop-open-d-drone-treble": "在持续共鸣的 Open D 调弦上，通过高音旋律音改变和弦色彩。",
+}
+
+FAMILY_NAME_ZH_OVERRIDES: dict[str, str] = {
+    "neo-soul-rnb-standard-hammer-shells": "六和弦到大七和弦的 Shell 指型与四度叠置",
+}
 
 STYLE_SLUGS = {
     "math-rock": "math-rock",
@@ -227,11 +313,11 @@ GENRE_SEO = {
         "zh_desc": "精选 33 个 Jangle pop 与独立摇滚吉他和弦，覆盖标准调弦、Open E 与升全音调弦，让可移动指型与清脆空弦交织共鸣。",
         "zh_kw": "Jangle pop吉他和弦,独立摇滚吉他和弦,Open E调弦和弦,空弦共鸣指法,英伦独立吉他",
         "en_faq": [
-            ("Why do jangle pop players use Whole Step Up or Open E?", "Tuning a whole step up (or using a capo on fret 2) increases string tension and brightness, giving open-string arpeggios their signature chime."),
+            ("How do Whole Step Up tuning and a fret-2 capo differ for jangle pop?", "Tuning a whole step up raises string tension at full scale length, giving a tighter, chimey attack. Clamping a capo at fret 2 shortens the vibrating string length so open shapes sound a whole step higher without retuning."),
             ("Are Standard tuning jangle pop chords included?", "Yes—this guide covers Standard tuning alongside Open E and Whole Step Up shapes."),
         ],
         "zh_faq": [
-            ("为什么 Jangle pop 吉他手常使用升全音调弦或变调夹？", "升高音高会增加琴弦张力并让泛音更清脆，使开放弦分解琶音呈现出标志性的钟鸣感。"),
+            ("升全音调弦和夹 2 品变调夹在 Jangle pop 里有什么区别？", "把琴弦拧高一个全音是在弦长不变的情况下提高琴弦张力，音头更紧致清脆；而夹在 2 品的变调夹是通过缩短有效振动弦长，让开放指型直接升高一个全音，无需重新调弦。"),
             ("本页是否包含标准调弦的 Jangle pop 指法？", "包含。本页同时收录标准调弦、Open E 与升全音调弦的经典指法。"),
         ],
     },
@@ -289,6 +375,8 @@ def render_fretboard_svg(
     frets: list[int | None],
     tuning_midis: list[int],
     root_pc: int,
+    quality: str = "",
+    is_zh: bool = False,
     highlight_string: int | None = None,
     ghost_fret: tuple[int, int] | None = None,
 ) -> str:
@@ -297,8 +385,9 @@ def render_fretboard_svg(
     - Root notes get the brand rose-magenta square marker.
     - Non-root fretted notes get deep slate dots.
     - Open strings get outline circles; muted strings get crisp crosses.
-    - Every sounding string displays its sounding note name below.
+    - Every sounding string displays its context-appropriate sounding note name below.
     """
+    note_spell = note_names_for_chord(root_pc, quality)
     positive = [f for f in frets if f is not None and f > 0]
     min_f = min(positive) if positive else 1
     max_f = max(positive) if positive else 4
@@ -314,8 +403,9 @@ def render_fretboard_svg(
     h = top + num_frets * fret_h + 28
     step_x = (right - left) / 5.0
 
+    aria_lbl = f"和弦指法图 {fret_code(frets)}" if is_zh else f"Chord diagram {fret_code(frets)}"
     lines = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-label="Chord diagram {esc(fret_code(frets))}">',
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-label="{esc(aria_lbl)}">',
     ]
 
     # Nut or base fret label
@@ -373,7 +463,7 @@ def render_fretboard_svg(
 
         midi = tuning_midis[s] + f
         pc = midi % 12
-        note_name = NOTE_NAMES[pc]
+        note_name = note_spell[pc]
         is_root = pc == (root_pc % 12)
 
         if f == 0:
@@ -457,13 +547,15 @@ def head_html(
   <meta property="og:title" content="{esc(title)}">
   <meta property="og:description" content="{esc(description)}">
   <meta property="og:url" content="{esc(canonical_url)}">
-  <meta property="og:image" content="{esc(base_url)}/assets/icon.svg">
+  <meta property="og:image" content="{esc(base_url)}/assets/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="{og_locale}">
   <meta property="og:locale:alternate" content="{og_alt}">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{esc(title)}">
   <meta name="twitter:description" content="{esc(description)}">
-  <meta name="twitter:image" content="{esc(base_url)}/assets/icon.svg">
+  <meta name="twitter:image" content="{esc(base_url)}/assets/og-cover.jpg">
   <link rel="stylesheet" href="{rel_root}assets/style.css?v={css_ver}">
   {ld_scripts}
 </head>"""
@@ -576,6 +668,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     base_url = base_url.rstrip("/")
     css_ver = hashlib.sha256((repo_root / "assets/style.css").read_bytes()).hexdigest()[:8]
     js_ver = hashlib.sha256((repo_root / "assets/audio.js").read_bytes()).hexdigest()[:8]
+    img_ver = hashlib.sha256((repo_root / "assets/screenshots/en/01-find.jpg").read_bytes()).hexdigest()[:8]
 
     with open(alt_chord_root / "Packages/ChordKit/Sources/ChordKit/Resources/chord-atlas.json") as f:
         atlas = json.load(f)
@@ -597,6 +690,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     families_by_style: dict[str, list[dict]] = {s["id"]: [] for s in atlas["styles"]}
     voicings_by_id: dict[str, tuple[dict, dict]] = {}  # id -> (voicing, family)
     for fam in atlas["families"]:
+        assert fam["id"] in FAMILY_DESC_ZH, f"Missing ZH description for family {fam['id']}"
         families_by_style[fam["styleID"]].append(fam)
         for v in fam["voicings"]:
             voicings_by_id[v["id"]] = (v, fam)
@@ -623,6 +717,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             "tab_en": tab_en,
             "tab_zh": tab_zh,
             "chord": cname,
+            "quality": v["quality"],
             "meta_en": f"{fam_en} · {fcode}",
             "meta_zh": f"{fam_zh} · {fcode}",
             "frets": v["frets"],
@@ -636,6 +731,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             "tab_en": "Cadd9",
             "tab_zh": "Cadd9",
             "chord": "Cadd9",
+            "quality": "add9",
             "meta_en": "Move one finger from plain C (x32010 → x32030)",
             "meta_zh": "从普通 C 和弦移动一根手指（x32010 → x32030）",
             "frets": [None, 3, 2, 0, 3, 0],
@@ -667,8 +763,8 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                 ("在 Aadd9 与 Badd11 上轻闷 A 弦：", "用食指指腹顺势轻触消音 A 弦（5x7600 与 7x9800），避免低中频浑浊。"),
                 ("同一指型直接平移：", "Aadd9 到 Badd11 指型完全一致，只需保持手型从 5 品滑到 7 品。"),
             ],
-            "source_en": "Voicings curated from add9's audited Shoegaze Standard-tuning catalog (open-string treble drones inspired by classic 1990s shoegaze and dream pop).",
-            "source_zh": "指法取自 add9 经过音程与手感校对的盯鞋标准调弦曲库（源于经典 90 年代盯鞋与梦幻流行的高音空弦持续音织体）。",
+            "source_en": "Voicings checked for interval accuracy and playability in add9's Shoegaze Standard-tuning library (open-string treble drones characteristic of 1990s shoegaze and dream pop).",
+            "source_zh": "指法来自 add9 的盯鞋标准调弦和弦库，均按音程关系与实际可按性逐条核对（灵感来自 90 年代经典盯鞋与梦幻流行的高音空弦持续音织体）。",
         },
         "math-rock": {
             "vids": ["steve-standard-24", "steve-standard-07", "steve-standard-03", "steve-standard-08"],
@@ -686,8 +782,8 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                 ("善用高音四弦指型提速：", "F#m7（xx4655）和 Amaj7（xx7999）集中在高音四弦，换把和加花都非常轻快。"),
                 ("进阶可切换 FACGCE：", "页面下方收录了 FACGCE 开放调弦指法，可获得更宽广的六弦共鸣。"),
             ],
-            "source_en": "Voicings sourced from add9's audited Math rock atlas (Standard compact extensions and FACGCE open voicings).",
-            "source_zh": "指法取自 add9 校对的数学摇滚和弦库（包含标准调弦紧凑延伸指型与 FACGCE 开放调弦）。",
+            "source_en": "Voicings checked for interval accuracy and finger span in add9's Math rock chord library (covering Standard compact extensions and FACGCE open voicings).",
+            "source_zh": "指法来自 add9 的数学摇滚和弦库，按音程与指距逐条核对（包含标准调弦紧凑延伸指型与 FACGCE 开放调弦）。",
         },
         "neo-soul-rnb": {
             "vids": ["pickup-neo-am9", "pickup-neo-fmaj7", "pickup-neo-cmaj9-open", "pickup-neo-c7s9"],
@@ -705,27 +801,27 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                 ("避开低音 E 弦保持干净：", "弹 Fmaj7（x8755x）和 C7#9（x3234x）时不拨 6 弦，中音声部会更紧致。"),
                 ("尝试指弹齐奏：", "相比重拨片扫弦，用拇指加三指轻抓这些九和弦更能突出柔和的灵魂乐质感。"),
             ],
-            "source_en": "Voicings drawn from add9's audited Neo-soul / R&B catalog (ninths, shells, and altered dominants).",
-            "source_zh": "指法取自 add9 校对的新灵魂乐 / R&B 曲库（大小九和弦、Shell 与变化属和弦）。",
+            "source_en": "Voicings checked for interval accuracy and playability in add9's Neo-soul / R&B chord library (ninths, shells, and altered dominants).",
+            "source_zh": "指法来自 add9 的新灵魂乐 / R&B 和弦库，按音程与手感逐条核对（涵盖大小九和弦、Shell 与变化属和弦）。",
         },
         "jazz": {
             "vids": ["jgo-shell-chords-3-3", "jgo-c7b9-1", "jgo-cmaj9-3", "jgo-c69-2"],
-            "title_en": "Playable Jazz voice-leading study (Standard tuning)",
-            "title_zh": "可直接上手的爵士声部连接示例（标准调弦）",
-            "why_en": "Demonstrates how Jazz players move smoothly from a 3-note Cm7 shell and tense C7b9 into warm Cmaj9 and C6/9 resolutions with minimal left-hand jump.",
-            "why_zh": "演示爵士吉他如何从三音 Cm7 Shell 和富有张力的 C7b9，以极小的左手移动平滑解决到温暖的 Cmaj9 与 C6/9。",
+            "title_en": "Playable Jazz color comparison on root C (Standard tuning)",
+            "title_zh": "以 C 为根音的爵士和弦色彩对比（标准调弦）",
+            "why_en": "Compares four C-root colors across two neck regions: a 3-note Cm7 shell and tense C7b9 around fret 8, then shifting down to frets 2–4 where Cmaj9 (x3243x) moves to C6/9 (x3223x) with a single finger drop on the G string.",
+            "why_zh": "对比同一根音 C 在两个把位上的四种爵士色彩：先在 8–9 品弹出三音 Cm7 Shell 与带张力的 C7b9，再换把至 2–4 品——其中最后两个和弦 Cmaj9（x3243x）到 C6/9（x3223x）只需移动 G 弦一根手指即可切换色彩。",
             "tips_en": [
                 ("Mute the A string on low-E shells:", "On Cm7 (8x88xx) and C7b9 (8x8989), let your index finger rest gently against the A string to mute it."),
-                ("Notice the 1-finger move from Cmaj9 to C6/9:", "Compare x3243x (Cmaj9) and x3223x (C6/9)—only the G string drops from fret 4 to fret 2."),
+                ("Compare the 1-finger shift on frets 2–4:", "After shifting down from fret 8, moving from Cmaj9 (x3243x) to C6/9 (x3223x) only drops the G string from fret 4 to fret 2."),
                 ("Comp with rhythm, not volume:", "Three- and four-note shells leave space for the bass and piano while keeping guide tones (3rd and 7th) crystal clear."),
             ],
             "tips_zh": [
                 ("低音 E 弦 Shell 注意消音 A 弦：", "弹 Cm7（8x88xx）与 C7b9（8x8989）时，用食指自然轻触消音 5 弦。"),
-                ("留意 Cmaj9 到 C6/9 的单指变化：", "对比 x3243x（Cmaj9）与 x3223x（C6/9），只需 G 弦从 4 品移到 2 品即可完成色彩转换。"),
+                ("留意 2–4 品的单指色彩切换：", "从 8 品换把下来后，Cmaj9（x3243x）切到 C6/9（x3223x）只需将 G 弦从 4 品移到 2 品。"),
                 ("留出声部空间：", "三音与四音指型把 3 音和 7 音交代得非常清楚，合奏时不会与贝斯或键盘打架。"),
             ],
-            "source_en": "Voicings drawn from add9's audited Jazz catalog (seventh shells, Drop 2 inversions, sixth-ninths, and altered dominants).",
-            "source_zh": "指法取自 add9 校对的爵士曲库（七和弦 Shell、Drop 2 转位、六九和弦与变化属和弦）。",
+            "source_en": "Voicings checked for interval accuracy and fingerings in add9's Jazz chord library (seventh shells, Drop 2 inversions, sixth-ninths, and altered dominants).",
+            "source_zh": "指法来自 add9 的爵士和弦库，按音程与指法逐条核对（涵盖七和弦 Shell、Drop 2 转位、六九和弦与变化属和弦）。",
         },
     }
 
@@ -739,7 +835,13 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             )
             midis = ",".join(str(m) for m in sounding_midis(b["frets"], std_midi))
             svg = render_fretboard_svg(
-                b["frets"], std_midi, b["root"], highlight_string=b["hl"], ghost_fret=b["ghost"]
+                b["frets"],
+                std_midi,
+                b["root"],
+                quality=b["quality"],
+                is_zh=is_zh,
+                highlight_string=b["hl"],
+                ghost_fret=b["ghost"],
             )
             hidden_attr = "" if idx == 0 else " hidden"
             strum_lbl = "试听" if is_zh else "Strum"
@@ -824,15 +926,15 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                 ("收藏具体指法与创建进行", "将喜欢的具体指法归入自定义风格，自由串联和弦进行、调节速度并离线原声回放。"),
             ]
             cta_h2 = "把 11 种风格与完整和弦库装进口袋"
-            cta_p = "无需登录，无广告，不追踪隐私。所有和弦图、反查引擎与吉他原声合成全部本地离线运行。"
+            cta_p = "无需登录，无广告，无追踪。所有和弦图、反查引擎与吉他原声合成全部本地离线运行。"
             cta_btn = "前往 App Store 下载 add9"
         else:
             title = "add9 — Guitar Chord Voicing App & Finder by Genre (iOS)"
             desc = "No more boring chords. add9 is an offline guitar chord voicing app for iPhone and iPad covering Jazz, Shoegaze, Math rock, Midwest emo, Neo-soul, J-pop, City pop, and Bossa nova—with reverse chord finder, capo, and progressions."
             kw = "guitar chord voicing app,guitar chord finder,add9 app,genre guitar chords,reverse chord finder,math rock chords,shoegaze guitar chords,jazz guitar voicings"
             h1 = "No more boring chords."
-            lead = "Ask for a plain chord and get the playable voicings players actually use in Jazz, Shoegaze, Math rock, Neo-soul, J-pop, and six more genres."
-            cta_main = "Download Free on App Store"
+            lead = "Choose a chord and get the playable voicings players actually use in Jazz, Shoegaze, Math rock, Neo-soul, J-pop, and six more genres."
+            cta_main = "Download for free on the App Store"
             cta_sec = "Browse 11 Genre Guides"
             hero_note = "For iPhone & iPad · 100% offline · No ads · No subscription"
             sec1_h2 = "Explore guitar chords by genre"
@@ -871,7 +973,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             ]
             if is_zh
             else [
-                ("01-find.jpg", "Find chords by genre", "Ask for a plain chord like C and compare curated voicings, staff notation, and scale degrees."),
+                ("01-find.jpg", "Find chords by genre", "Choose a chord like C and compare curated voicings, staff notation, and scale degrees."),
                 ("02-reverse.jpg", "Tap the fretboard to identify", "Plot any grip to name unfamiliar chords and slide movable shapes while open strings ring."),
                 ("03-genres.jpg", "11 genres, or add your own", "Browse Jazz, Shoegaze, Math rock, Neo-soul, J-pop, and more—plus custom collections."),
                 ("05-progression.jpg", "Build & loop progressions", "String saved fingerings together, set tempo and capo (0–12), and audition offline."),
@@ -885,7 +987,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             for i, (_, stitle, sdesc) in enumerate(screens_data)
         )
         screen_imgs_html = "".join(
-            f'<img src="{screen_dir}/{fname}" alt="{esc(stitle)}" width="600" height="1312" data-screen-img="{i}" class="{"is-active" if i == 0 else ""}"{" loading=lazy" if i > 0 else ""}>'
+            f'<img src="{screen_dir}/{fname}?v={img_ver}" alt="{esc(stitle)}" width="600" height="1312" data-screen-img="{i}" class="{"is-active" if i == 0 else ""}"{" loading=lazy" if i > 0 else ""}>'
             for i, (fname, stitle, _) in enumerate(screens_data)
         )
         screen_dots_html = "".join(
@@ -1082,8 +1184,8 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                 tid = fam["tuningID"]
                 tuning = tunings_by_id[tid]
                 t_name = zh_text(tuning["name"]) if is_zh else tuning["name"]
-                f_name = zh_text(fam["name"]) if is_zh else fam["name"]
-                f_desc = fam["description"]
+                f_name = FAMILY_NAME_ZH_OVERRIDES.get(fam["id"], zh_text(fam["name"])) if is_zh else fam["name"]
+                f_desc = FAMILY_DESC_ZH[fam["id"]] if is_zh else fam["description"]
 
                 cards = []
                 for v in fam["voicings"]:
@@ -1093,7 +1195,9 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                     midis = ",".join(str(m) for m in sounding_midis(frets, tuning["midiNotes"]))
                     movable = v.get("audit", {}).get("movable", False)
                     move_lbl = ("可移动" if movable else "固定把位") if is_zh else ("Movable" if movable else "Fixed")
-                    svg = render_fretboard_svg(frets, tuning["midiNotes"], v["root"])
+                    svg = render_fretboard_svg(
+                        frets, tuning["midiNotes"], v["root"], quality=v["quality"], is_zh=is_zh
+                    )
                     play_lbl = f"试听 {cname}" if is_zh else f"Play {cname}"
                     cards.append(
                         f"""<article class="voicing-card">
@@ -1108,7 +1212,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
   </div>
 </article>"""
                     )
-                desc_html = f'<p class="family-desc">{esc(f_desc)}</p>' if not is_zh else ""
+                desc_html = f'<p class="family-desc">{esc(f_desc)}</p>'
                 family_blocks.append(
                     f"""<section class="family-block">
   <div class="family-head">
@@ -1195,10 +1299,11 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                     for lead_t, body_t in (g["tips_zh"] if is_zh else g["tips_en"])
                 )
                 play_prog_lbl = "连续试听进行" if is_zh else "Play progression"
+                stop_prog_lbl = "停止试听" if is_zh else "Stop"
                 guide_html = f"""<div class="guide-panel">
   <div class="prog-head">
     <h2>{esc(g['title_zh'] if is_zh else g['title_en'])}</h2>
-    <button type="button" class="strum-btn" data-play-progression>{PLAY_SVG}<span>{play_prog_lbl}</span></button>
+    <button type="button" class="strum-btn" data-play-progression data-label-play="{esc(play_prog_lbl)}" data-label-stop="{esc(stop_prog_lbl)}" aria-pressed="false">{PLAY_SVG}<span>{play_prog_lbl}</span></button>
   </div>
   <div class="prog-steps">{''.join(step_cards)}</div>
   <p class="prog-why">{esc(g['why_zh'] if is_zh else g['why_en'])}</p>

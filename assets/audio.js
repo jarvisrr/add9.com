@@ -3,6 +3,7 @@
 
   var audioCtx = null;
   var activeProgTimers = [];
+  var activeProgBtn = null;
 
   function getCtx() {
     var AC = window.AudioContext || window.webkitAudioContext;
@@ -85,6 +86,14 @@
     document.querySelectorAll(".prog-step.is-active").forEach(function (el) {
       el.classList.remove("is-active");
     });
+    if (activeProgBtn) {
+      activeProgBtn.classList.remove("is-playing");
+      activeProgBtn.setAttribute("aria-pressed", "false");
+      var lbl = activeProgBtn.querySelector("span");
+      var defText = activeProgBtn.getAttribute("data-label-play");
+      if (lbl && defText) lbl.textContent = defText;
+      activeProgBtn = null;
+    }
   }
 
   function setShowcaseIndex(root, idx) {
@@ -127,9 +136,18 @@
     if (progBtn) {
       var panel = progBtn.closest(".guide-panel");
       if (!panel) return;
+      if (activeProgBtn === progBtn) {
+        clearProgTimers();
+        return;
+      }
       clearProgTimers();
       var steps = Array.prototype.slice.call(panel.querySelectorAll(".prog-step[data-midi]"));
+      activeProgBtn = progBtn;
       progBtn.classList.add("is-playing");
+      progBtn.setAttribute("aria-pressed", "true");
+      var lbl = progBtn.querySelector("span");
+      var stopText = progBtn.getAttribute("data-label-stop");
+      if (lbl && stopText) lbl.textContent = stopText;
       steps.forEach(function (step, i) {
         var id = window.setTimeout(function () {
           steps.forEach(function (s) {
@@ -141,7 +159,6 @@
       });
       var endId = window.setTimeout(function () {
         clearProgTimers();
-        progBtn.classList.remove("is-playing");
       }, steps.length * 1150 + 400);
       activeProgTimers.push(endId);
       return;
