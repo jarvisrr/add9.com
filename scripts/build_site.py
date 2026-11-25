@@ -630,7 +630,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
         {
             "tab_en": "Shoegaze",
             "tab_zh": "盯鞋",
-            "chord": "Emaj9",
+            "chord": "Eadd9",
             "meta_en": "Ringing open treble strings · 0 2 4 1 0 0",
             "meta_zh": "高音空弦持续共鸣 · 0 2 4 1 0 0",
             "frets": [0, 2, 4, 1, 0, 0],
@@ -641,9 +641,9 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
         {
             "tab_en": "Math rock",
             "tab_zh": "数学摇滚",
-            "chord": "Fmaj9",
-            "meta_en": "Compact Standard-tuning extension · 1 x 2 2 1 0",
-            "meta_zh": "标准调弦紧凑延伸音 · 1 x 2 2 1 0",
+            "chord": "Fmaj7",
+            "meta_en": "Compact Standard-tuning maj7 · 1 x 2 2 1 0",
+            "meta_zh": "标准调弦紧凑大七指型 · 1 x 2 2 1 0",
             "frets": [1, None, 2, 2, 1, 0],
             "root": 5,
             "hl": 5,
