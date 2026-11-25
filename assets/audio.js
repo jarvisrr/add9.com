@@ -108,6 +108,11 @@
     root.querySelectorAll("[data-screen-tab]").forEach(function (t, i) {
       t.setAttribute("aria-selected", i === next ? "true" : "false");
     });
+    var panel = root.querySelector('[role="tabpanel"]');
+    var activeTab = root.querySelector('[data-screen-tab="' + next + '"]');
+    if (panel && activeTab && activeTab.id) {
+      panel.setAttribute("aria-labelledby", activeTab.id);
+    }
     root.querySelectorAll("[data-screen-dot]").forEach(function (d, i) {
       d.setAttribute("aria-pressed", i === next ? "true" : "false");
     });

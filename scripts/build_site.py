@@ -528,6 +528,7 @@ def head_html(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="text-scale" content="scale">
   <meta http-equiv="content-language" content="{content_lang}">
   <meta name="applicable-device" content="pc,mobile">
   <meta http-equiv="Cache-Control" content="no-transform">
@@ -557,6 +558,7 @@ def head_html(
   <meta name="twitter:description" content="{esc(description)}">
   <meta name="twitter:image" content="{esc(base_url)}/assets/og-cover.jpg">
   <link rel="stylesheet" href="{rel_root}assets/style.css?v={css_ver}">
+  <script type="speculationrules">{{"prefetch":[{{"where":{{"and":[{{"href_matches":"/*"}},{{"not":{{"selector_matches":"[target=_blank]"}}}}]}},"eagerness":"moderate"}}]}}</script>
   {ld_scripts}
 </head>"""
 
@@ -980,14 +982,14 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             ]
         )
         screen_tabs_html = "".join(
-            f"""<button type="button" class="showcase-tab" role="tab" data-screen-tab="{i}" aria-selected="{'true' if i == 0 else 'false'}">
+            f"""<button type="button" id="showcase-tab-{i}" class="showcase-tab" role="tab" data-screen-tab="{i}" aria-selected="{'true' if i == 0 else 'false'}">
   <i class="showcase-dot" aria-hidden="true"></i>
   <div><strong>{esc(stitle)}</strong><span>{esc(sdesc)}</span></div>
 </button>"""
             for i, (_, stitle, sdesc) in enumerate(screens_data)
         )
         screen_imgs_html = "".join(
-            f'<img src="{screen_dir}/{fname}?v={img_ver}" alt="{esc(stitle)}" width="600" height="1312" data-screen-img="{i}" class="{"is-active" if i == 0 else ""}"{" loading=lazy" if i > 0 else ""}>'
+            f'<img src="{screen_dir}/{fname}?v={img_ver}" alt="{esc(stitle)}" width="600" height="1312" decoding="async" data-screen-img="{i}" class="{"is-active" if i == 0 else ""}"{" fetchpriority=low loading=lazy" if i > 0 else ""}>'
             for i, (fname, stitle, _) in enumerate(screens_data)
         )
         screen_dots_html = "".join(
@@ -1035,7 +1037,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
       </div>
       <div class="showcase-stage">
         <div class="iphone-frame">
-          <div class="iphone-screen" title="{'点击切换下一张界面' if is_zh else 'Click to view next screen'}">
+          <div class="iphone-screen" role="tabpanel" aria-labelledby="showcase-tab-0" title="{'点击切换下一张界面' if is_zh else 'Click to view next screen'}">
             {screen_imgs_html}
           </div>
         </div>
@@ -1124,10 +1126,12 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
 <main>
   <section class="genre-hero">
     <div class="wrap">
-      <ol class="breadcrumb">
-        <li><a href="{home_href}">{crumb_home}</a></li>
-        <li aria-current="page">{crumb_cur}</li>
-      </ol>
+      <nav aria-label="{'面包屑导航' if is_zh else 'Breadcrumb'}">
+        <ol class="breadcrumb">
+          <li><a href="{home_href}">{crumb_home}</a></li>
+          <li aria-current="page">{crumb_cur}</li>
+        </ol>
+      </nav>
       <h1>{esc(h1)}</h1>
       <p class="hero-lead">{esc(lead)}</p>
     </div>
@@ -1329,11 +1333,13 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
 <main>
   <section class="genre-hero">
     <div class="wrap">
-      <ol class="breadcrumb">
-        <li><a href="{home_href}">{crumb_home}</a></li>
-        <li><a href="{chords_href}">{crumb_chords}</a></li>
-        <li aria-current="page">{esc(style_name)}</li>
-      </ol>
+      <nav aria-label="{'面包屑导航' if is_zh else 'Breadcrumb'}">
+        <ol class="breadcrumb">
+          <li><a href="{home_href}">{crumb_home}</a></li>
+          <li><a href="{chords_href}">{crumb_chords}</a></li>
+          <li aria-current="page">{esc(style_name)}</li>
+        </ol>
+      </nav>
       <h1>{esc(h1)}</h1>
       <p class="hero-lead">{esc(style_summary)}</p>
       <div class="tuning-bar">{tuning_pills}</div>
