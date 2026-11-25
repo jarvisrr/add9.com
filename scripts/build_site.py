@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import hashlib
 import html
 import json
 import os
@@ -423,6 +424,7 @@ def head_html(
     rel_root: str,
     base_url: str,
     json_ld_list: list[dict],
+    css_ver: str = "1",
 ) -> str:
     content_lang = "zh-CN" if lang == "zh-Hans" else "en-US"
     og_locale = "zh_CN" if lang == "zh-Hans" else "en_US"
@@ -462,7 +464,7 @@ def head_html(
   <meta name="twitter:title" content="{esc(title)}">
   <meta name="twitter:description" content="{esc(description)}">
   <meta name="twitter:image" content="{esc(base_url)}/assets/icon.svg">
-  <link rel="stylesheet" href="{rel_root}assets/style.css">
+  <link rel="stylesheet" href="{rel_root}assets/style.css?v={css_ver}">
   {ld_scripts}
 </head>"""
 
@@ -493,7 +495,7 @@ def header_html(lang: str, rel_root: str, switch_href: str, active: str) -> str:
 </header>"""
 
 
-def footer_html(lang: str, rel_root: str, switch_href: str) -> str:
+def footer_html(lang: str, rel_root: str, switch_href: str, js_ver: str = "1") -> str:
     is_zh = lang == "zh-Hans"
     home_href = f"{rel_root}zh/" if is_zh else f"{rel_root}"
     chords_href = f"{rel_root}zh/chords/" if is_zh else f"{rel_root}chords/"
@@ -512,7 +514,7 @@ def footer_html(lang: str, rel_root: str, switch_href: str) -> str:
     </div>
   </div>
 </footer>
-<script src="{rel_root}assets/audio.js" defer></script>
+<script src="{rel_root}assets/audio.js?v={js_ver}" defer></script>
 </body>
 </html>"""
 
@@ -572,6 +574,8 @@ def md_to_simple_html(md_text: str) -> str:
 
 def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     base_url = base_url.rstrip("/")
+    css_ver = hashlib.sha256((repo_root / "assets/style.css").read_bytes()).hexdigest()[:8]
+    js_ver = hashlib.sha256((repo_root / "assets/audio.js").read_bytes()).hexdigest()[:8]
 
     with open(alt_chord_root / "Packages/ChordKit/Sources/ChordKit/Resources/chord-atlas.json") as f:
         atlas = json.load(f)
@@ -902,6 +906,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             rel_root=rel_root,
             base_url=base_url,
             json_ld_list=[app_ld],
+            css_ver=css_ver,
         )}
 <body>
 {header_html(lang, rel_root, switch_href, active="home")}
@@ -966,7 +971,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     </div>
   </section>
 </main>
-{footer_html(lang, rel_root, switch_href)}"""
+{footer_html(lang, rel_root, switch_href, js_ver=js_ver)}"""
         write_page("zh/index.html" if is_zh else "index.html", page_html)
 
     sitemap_entries.append((f"{base_url}/", f"{base_url}/zh/", "1.0"))
@@ -1015,6 +1020,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             rel_root=rel_root,
             base_url=base_url,
             json_ld_list=[crumb_ld],
+            css_ver=css_ver,
         )}
 <body>
 {header_html(lang, rel_root, switch_href, active="chords")}
@@ -1035,7 +1041,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     </div>
   </section>
 </main>
-{footer_html(lang, rel_root, switch_href)}"""
+{footer_html(lang, rel_root, switch_href, js_ver=js_ver)}"""
         write_page("zh/chords/index.html" if is_zh else "chords/index.html", page_html)
 
     sitemap_entries.append((f"{base_url}/chords/", f"{base_url}/zh/chords/", "0.9"))
@@ -1216,6 +1222,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
                 rel_root=rel_root,
                 base_url=base_url,
                 json_ld_list=ld_list,
+                css_ver=css_ver,
             )}
 <body>
 {header_html(lang, rel_root, switch_href, active="chords")}
@@ -1268,7 +1275,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     </div>
   </section>
 </main>
-{footer_html(lang, rel_root, switch_href)}"""
+{footer_html(lang, rel_root, switch_href, js_ver=js_ver)}"""
             out_rel = f"zh/chords/{slug}/index.html" if is_zh else f"chords/{slug}/index.html"
             write_page(out_rel, page_html)
 
@@ -1301,6 +1308,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             rel_root=rel_root,
             base_url=base_url,
             json_ld_list=[],
+            css_ver=css_ver,
         )}
 <body>
 {header_html(lang, rel_root, switch_href, active="privacy")}
@@ -1309,7 +1317,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
     {md_to_simple_html(md_body)}
   </div>
 </main>
-{footer_html(lang, rel_root, switch_href)}"""
+{footer_html(lang, rel_root, switch_href, js_ver=js_ver)}"""
         write_page("zh/privacy/index.html" if is_zh else "privacy/index.html", page_html)
 
     sitemap_entries.append((f"{base_url}/privacy/", f"{base_url}/zh/privacy/", "0.4"))
