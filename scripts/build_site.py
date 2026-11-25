@@ -70,7 +70,7 @@ FAMILY_DESC_ZH: dict[str, str] = {
     "city-pop-standard-compact": "根音在 A 弦上、全按弦无空弦的紧凑指型，便于精准制音。",
     "city-pop-standard-upper-strings": "根音在 D 弦或 G 弦上的三至四弦指型，专为切音节奏伴奏设计。",
     "city-pop-standard-dominants": "升五、降九与升九变化属和弦，对照作为基础的四音标准属七指型。",
-    "city-pop-standard-slash": "位于两组弦上的大三和弦转位（低音高于根音一个全音，如 F/G）。",
+    "city-pop-standard-slash": "分布在两组琴弦上的分数和弦：大三和弦搭配比根音高一个全音的低音（如 F 大三和弦配 G 低音的 F/G）。",
     "neo-soul-rnb-standard-ninths": "涵盖开放把位、紧凑中音区与全把位的九和弦指型。",
     "neo-soul-rnb-standard-hammer-shells": "可击弦过渡到大七和弦的三音六和弦，以及低音 E 空弦上的四度叠置六九和弦。",
     "neo-soul-rnb-standard-sevenths": "包含高音弦转位、宽音程排列与完整大横按的七和弦。",
@@ -770,7 +770,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             "vids": ["steve-standard-24", "steve-standard-07", "steve-standard-03", "steve-standard-08"],
             "title_en": "Playable Math rock progression (Standard tuning)",
             "title_zh": "可直接上手的数学摇滚和弦进行（标准调弦）",
-            "why_en": "Moves from a bright four-note Amaj9 (5464xx) into upper-string F#m7 and Amaj7 voicings, then resolves with a crisp low-E-root G7 color—compact enough for clean fingerpicking or tapping.",
+            "why_en": "Moves from a bright four-note Amaj9 (5464xx) into upper-string F#m7 and Amaj7 voicings, then adds contrasting G7 tension on a crisp low-E root before looping back to Amaj9—compact enough for clean fingerpicking or tapping.",
             "why_zh": "从明亮的四音 Amaj9（5464xx）过渡到高音弦的 F#m7 与 Amaj7，再接低音 E 弦根音的 G7 色彩过渡；把位紧凑，适合清音分解或点弦。",
             "tips_en": [
                 ("Mute unused treble strings on Amaj9:", "Keep the B and high E strings muted on 5464xx so the 9th (B on the G string) rings clearly without clutter."),

@@ -48,4 +48,4 @@ Apple 根据其自身的隐私规则及你的设置处理 App Store 和设备诊
 
 ## 联系我们
 
-如有隐私问题， 请通过以下邮箱联系 [jarvisrenapps@outlook.com](mailto:jarvisrenapps@outlook.com)。
+如有隐私问题，或希望请求查阅、更正或删除我们所持有的个人信息，请通过以下邮箱联系 [jarvisrenapps@outlook.com](mailto:jarvisrenapps@outlook.com)。
