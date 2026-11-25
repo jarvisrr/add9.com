@@ -87,7 +87,42 @@
     });
   }
 
+  function setShowcaseIndex(root, idx) {
+    var imgs = root.querySelectorAll("[data-screen-img]");
+    var count = imgs.length;
+    if (!count) return;
+    var next = ((idx % count) + count) % count;
+    root.setAttribute("data-active-idx", String(next));
+    imgs.forEach(function (img, i) {
+      img.classList.toggle("is-active", i === next);
+    });
+    root.querySelectorAll("[data-screen-tab]").forEach(function (t, i) {
+      t.setAttribute("aria-selected", i === next ? "true" : "false");
+    });
+    root.querySelectorAll("[data-screen-dot]").forEach(function (d, i) {
+      d.setAttribute("aria-pressed", i === next ? "true" : "false");
+    });
+  }
+
   document.addEventListener("click", function (ev) {
+    var sTab = ev.target.closest("[data-screen-tab], [data-screen-dot]");
+    if (sTab) {
+      var showcase = sTab.closest(".showcase");
+      if (!showcase) return;
+      var val = sTab.getAttribute("data-screen-tab") || sTab.getAttribute("data-screen-dot");
+      setShowcaseIndex(showcase, parseInt(val, 10) || 0);
+      return;
+    }
+
+    var screenBox = ev.target.closest(".iphone-screen");
+    if (screenBox) {
+      var sc = screenBox.closest(".showcase");
+      if (!sc) return;
+      var cur = parseInt(sc.getAttribute("data-active-idx") || "0", 10);
+      setShowcaseIndex(sc, cur + 1);
+      return;
+    }
+
     var progBtn = ev.target.closest("[data-play-progression]");
     if (progBtn) {
       var panel = progBtn.closest(".guide-panel");
@@ -137,5 +172,20 @@
         }
       });
     }
+  });
+
+  document.addEventListener("keydown", function (ev) {
+    var sTab = ev.target.closest("[data-screen-tab]");
+    if (!sTab) return;
+    if (ev.key !== "ArrowDown" && ev.key !== "ArrowUp" && ev.key !== "ArrowLeft" && ev.key !== "ArrowRight") return;
+    var showcase = sTab.closest(".showcase");
+    if (!showcase) return;
+    ev.preventDefault();
+    var cur = parseInt(sTab.getAttribute("data-screen-tab") || "0", 10);
+    var delta = ev.key === "ArrowDown" || ev.key === "ArrowRight" ? 1 : -1;
+    setShowcaseIndex(showcase, cur + delta);
+    var nextIdx = parseInt(showcase.getAttribute("data-active-idx") || "0", 10);
+    var nextBtn = showcase.querySelector('[data-screen-tab="' + nextIdx + '"]');
+    if (nextBtn) nextBtn.focus();
   });
 })();

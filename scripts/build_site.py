@@ -861,39 +861,38 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             "inLanguage": ["en", "zh-Hans"],
         }
 
-        caps_html = "".join(
-            f'<div class="cap-item"><h3>{esc(t)}</h3><p>{esc(p)}</p></div>'
-            for t, p in caps
-        )
         screen_dir = f"{rel_root}assets/screenshots/{'zh' if is_zh else 'en'}"
         screens_data = (
             [
-                ("01-find.jpg", "按风格查找替代和弦", "选根音与和弦类型，直接切换不同风格的真实指法与转位。"),
-                ("02-reverse.jpg", "指板反查与把位平移", "在指板上点音即刻识别和弦名，支持整把位上下移动并保留空弦。"),
-                ("03-genres.jpg", "11 种精选音乐风格", "爵士、盯鞋、数学摇滚、新灵魂乐、J-pop 等风格分类浏览，支持自定义风格。"),
-                ("05-progression.jpg", "编排与试听和弦进行", "把收藏的指法串成进行，自由调整速度、变调夹并离线原声回放。"),
+                ("01-find.jpg", "按风格查找替代和弦", "输入基础和弦（如 C），立刻对照 11 种风格的特色替代指法、五线谱与音级。"),
+                ("02-reverse.jpg", "指板反查与把位平移", "在指板上点音识别怪和弦，并可整把位上下移动、保持空弦共鸣。"),
+                ("03-genres.jpg", "11 种内置风格 + 自定义", "爵士、盯鞋、数学摇滚、新灵魂乐、J-pop 等风格分类浏览，也能自建风格收藏。"),
+                ("05-progression.jpg", "编排与循环试听进行", "串联收藏的指法，自由设定速度与 0–12 品变调夹，离线原声循环回放。"),
             ]
             if is_zh
             else [
-                ("01-find.jpg", "Find chords & genre alternatives", "Pick a root and quality, then compare standard grips with genre-specific voicings and inversions."),
-                ("02-reverse.jpg", "Reverse finder & movable shapes", "Tap notes on the fretboard to name any chord, and shift fretted notes while open strings ring."),
-                ("03-genres.jpg", "11 curated music genres", "Browse Jazz, Shoegaze, Math rock, Neo-soul, J-pop, and more—or create your own custom genres."),
-                ("05-progression.jpg", "Build & play progressions", "String saved voicings into progressions, adjust tempo and capo, and audition offline."),
+                ("01-find.jpg", "Find chords by genre", "Ask for a plain chord like C and compare curated voicings, staff notation, and scale degrees."),
+                ("02-reverse.jpg", "Tap the fretboard to identify", "Plot any grip to name unfamiliar chords and slide movable shapes while open strings ring."),
+                ("03-genres.jpg", "11 genres, or add your own", "Browse Jazz, Shoegaze, Math rock, Neo-soul, J-pop, and more—plus custom collections."),
+                ("05-progression.jpg", "Build & loop progressions", "String saved fingerings together, set tempo and capo (0–12), and audition offline."),
             ]
         )
-        screens_html = "".join(
-            f"""<figure class="screen-figure">
-  <div class="screen-frame"><img src="{screen_dir}/{fname}" alt="{esc(stitle)}" width="443" height="960" loading="lazy"></div>
-  <figcaption><strong>{esc(stitle)}</strong>{esc(sdesc)}</figcaption>
-</figure>"""
-            for fname, stitle, sdesc in screens_data
+        screen_tabs_html = "".join(
+            f"""<button type="button" class="showcase-tab" role="tab" data-screen-tab="{i}" aria-selected="{'true' if i == 0 else 'false'}">
+  <i class="showcase-dot" aria-hidden="true"></i>
+  <div><strong>{esc(stitle)}</strong><span>{esc(sdesc)}</span></div>
+</button>"""
+            for i, (_, stitle, sdesc) in enumerate(screens_data)
         )
-        screens_h2 = "看看 add9 在 iPhone 上的真实界面" if is_zh else "Inside add9 on iPhone"
-        screens_sub = (
-            "从查找和弦、指板反查、按风格探索到编排和弦进行，全程离线流畅运行。"
-            if is_zh
-            else "Find a chord, identify shapes on the fretboard, explore by genre, and build progressions—completely offline."
+        screen_imgs_html = "".join(
+            f'<img src="{screen_dir}/{fname}" alt="{esc(stitle)}" width="600" height="1312" data-screen-img="{i}" class="{"is-active" if i == 0 else ""}"{" loading=lazy" if i > 0 else ""}>'
+            for i, (fname, stitle, _) in enumerate(screens_data)
         )
+        screen_dots_html = "".join(
+            f'<button type="button" class="showcase-pill" data-screen-dot="{i}" aria-pressed="{"true" if i == 0 else "false"}" aria-label="{esc(stitle)}"></button>'
+            for i, (_, stitle, _) in enumerate(screens_data)
+        )
+        screens_h2 = "看看 add9 的真实界面" if is_zh else "Inside add9 on iPhone"
         chords_prefix = "chords/"
         page_html = f"""{head_html(
             lang=lang,
@@ -927,14 +926,19 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
   </section>
 
   <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2>{esc(screens_h2)}</h2>
-          <p class="section-sub">{esc(screens_sub)}</p>
-        </div>
+    <div class="wrap showcase" data-active-idx="0">
+      <div class="showcase-copy">
+        <h2>{esc(screens_h2)}</h2>
+        <div class="showcase-nav" role="tablist" aria-label="{esc(screens_h2)}">{screen_tabs_html}</div>
       </div>
-      <div class="screens-grid">{screens_html}</div>
+      <div class="showcase-stage">
+        <div class="iphone-frame">
+          <div class="iphone-screen" title="{'点击切换下一张界面' if is_zh else 'Click to view next screen'}">
+            {screen_imgs_html}
+          </div>
+        </div>
+        <div class="showcase-dots">{screen_dots_html}</div>
+      </div>
     </div>
   </section>
 
@@ -947,15 +951,6 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
         </div>
       </div>
       {render_genre_list(is_zh, chords_prefix)}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>{esc(sec2_h2)}</h2>
-      </div>
-      <div class="cap-grid">{caps_html}</div>
     </div>
   </section>
 

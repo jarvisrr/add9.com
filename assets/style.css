@@ -54,6 +54,7 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.65;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -422,45 +423,151 @@ svg {
   grid-column: 1 / -1;
 }
 
-/* App Screenshot Showcase */
-.screens-grid {
+/* Interactive iPhone Showcase */
+.showcase {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
 }
 
-.screen-figure {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.showcase-copy h2 {
+  margin: 0 0 22px;
 }
 
-.screen-frame {
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--slate-deep);
+.showcase-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.showcase-tab {
+  appearance: none;
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  align-items: start;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.showcase-tab:hover {
+  background: var(--surface-alt);
+}
+
+.showcase-tab[aria-selected="true"] {
+  background: var(--surface);
+  border-color: var(--line);
   box-shadow: var(--shadow);
 }
 
-.screen-frame img {
-  width: 100%;
-  height: auto;
-  display: block;
+.showcase-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background-color 160ms ease, transform 160ms ease;
 }
 
-.screen-figure figcaption {
-  font-size: 0.9rem;
+.showcase-tab[aria-selected="true"] .showcase-dot {
+  background: var(--accent);
+  transform: scale(1.15);
+}
+
+.showcase-tab strong {
+  display: block;
+  font-size: 1.04rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.showcase-tab span {
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.5;
   color: var(--muted);
-  line-height: 1.45;
 }
 
-.screen-figure figcaption strong {
-  display: block;
-  color: var(--ink);
-  font-size: 0.96rem;
-  margin-bottom: 2px;
+.showcase-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  border-radius: 24px;
+  background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--slate) 16%, transparent), transparent 70%);
+}
+
+.iphone-frame {
+  position: relative;
+  width: min(302px, 80vw);
+  padding: 10px;
+  border-radius: 44px;
+  background: linear-gradient(155deg, #2d374b 0%, #141923 48%, #252e40 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 28px 60px -24px rgba(10, 16, 29, 0.65);
+}
+
+.iphone-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 600 / 1312;
+  border-radius: 34px;
+  overflow: hidden;
+  background: #000000;
+  cursor: pointer;
+}
+
+.iphone-screen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1), transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.iphone-screen img.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.showcase-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.showcase-pill {
+  appearance: none;
+  width: 24px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--line);
+  cursor: pointer;
+  transition: width 180ms ease, background-color 180ms ease;
+}
+
+.showcase-pill[aria-pressed="true"] {
+  width: 40px;
+  background: var(--accent);
 }
 
 /* Playable Chord Progression & Playing Tips on Genre Pages */
@@ -898,15 +1005,16 @@ svg {
 
 /* Responsive */
 @media (max-width: 860px) {
-  .hero-grid {
+  .hero-grid,
+  .showcase {
     grid-template-columns: 1fr;
+  }
+  .showcase-stage {
+    padding: 8px 0 4px;
   }
   .genre-list,
   .cap-grid {
     grid-template-columns: 1fr;
-  }
-  .screens-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .prog-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -919,11 +1027,24 @@ svg {
     width: min(100% - 28px, 1120px);
   }
   .nav-links {
-    gap: 14px;
+    gap: 12px;
     font-size: 0.88rem;
   }
+  .nav-links .btn-sm {
+    display: none;
+  }
+  .hero-actions .btn {
+    width: 100%;
+  }
+  .bench {
+    padding: 16px;
+  }
+  .bench-stage {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
   .voicing-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
   }
 }
 
