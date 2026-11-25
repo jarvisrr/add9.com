@@ -825,7 +825,142 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             "source_en": "Voicings checked for interval accuracy and fingerings in add9's Jazz chord library (seventh shells, Drop 2 inversions, sixth-ninths, and altered dominants).",
             "source_zh": "指法来自 add9 的爵士和弦库，按音程与指法逐条核对（涵盖七和弦 Shell、Drop 2 转位、六九和弦与变化属和弦）。",
         },
+        "midwest-emo": {
+            "vids": ["gw-emo4-emaj7", "gw-emo4-fsm7", "gw-emo4-amaj7", "gw-emo4-gsm7s5"],
+            "title_en": "Playable Midwest emo progression (Standard tuning)",
+            "title_zh": "可直接上手的中西部 emo 和弦进行（标准调弦）",
+            "why_en": "Slides four compact shapes up the D, G, and B strings in E major (I → ii → IV → iii) while the open high E string rings continuously on top for that signature twinkly shimmer.",
+            "why_zh": "在 E 大调中让 D、G、B 三根弦上的紧凑指型沿指板滑行（I → ii → IV → iii），同时让高音 E 空弦持续在顶部共鸣，弹出标志性的闪亮质感。",
+            "tips_en": [
+                ("Keep the open high E completely clear:", "Arch your ring and pinky fingers on the B string so the open 1st string rings across every chord change."),
+                ("Skip the low E and A strings:", "Pick or strum only the top four strings (D–G–B–e) to keep the arpeggio light and articulate."),
+                ("Explore FACGCE below:", "Scroll to the FACGCE section for open-tuning extensions that ring across all six strings."),
+            ],
+            "tips_zh": [
+                ("保证高音 E 空弦完全清亮：", "按 B 弦的手指立起关节，避免指腹碰到 1 弦，让空弦 E 贯穿整个进行。"),
+                ("只弹高音四弦：", "右手集中拨弹 D、G、B、e 四根弦，避开低音两弦，分解琶音会更通透轻盈。"),
+                ("进阶可试 FACGCE 调弦：", "页面下方收录了 FACGCE 开放调弦指法，可获得全六弦共鸣。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and playability in add9's Midwest emo chord library (Standard treble pedals and FACGCE open extensions).",
+            "source_zh": "指法来自 add9 的中西部 emo 和弦库，按音程与手感逐条核对（包含标准调弦高音持续音与 FACGCE 开放延伸指型）。",
+        },
+        "jpop": {
+            "vids": ["jl-jpop-fmaj7-double", "jl-jpop-em7", "jp-ogs-am7", "jl-jpop-f-over-g"],
+            "title_en": "Playable J-pop IV–iii–vi–V cadence in C (Standard tuning)",
+            "title_zh": "可直接上手的 J-pop 王道进行变体（C 调标准调弦）",
+            "why_en": "Connects an open-top Fmaj7 into effortless Em7 and Am7 voicings, then resolves back through the classic J-pop F/G slash dominant (G9sus4) that glides smoothly into C.",
+            "why_zh": "把带高音空弦的 Fmaj7 自然接到轻盈的 Em7 与 Am7，最后通过 J-pop 标志性的 F/G 挂留属和弦（G9sus4）顺滑拉回主和弦。",
+            "tips_en": [
+                ("Use the open high E on Fmaj7:", "Play 132210 (or thumb on fret 1) so the open 1st string adds bright maj7 shimmer instead of a heavy full barre."),
+                ("Keep transitions minimal on Em7 → Am7:", "Both shapes sit right in open position—let the open G and E strings sustain through the change."),
+                ("Mute the A string on F/G (3x3211):", "Let your thumb or ring finger lightly touch the 5th string while fretting the G bass on low E fret 3."),
+            ],
+            "tips_zh": [
+                ("用开放高音 E 弹出 Fmaj7 的通透感：", "132210 相比传统大横按更清亮，空弦 1 弦正好提供大七音色彩。"),
+                ("开放把位顺滑衔接 Em7 → Am7：", "两和弦都在 1–2 品附近，换和弦时尽量让 G 弦与高音 E 弦自然延音。"),
+                ("弹 F/G（3x3211）时轻闷 A 弦：", "低音 E 弦 3 品按 G 根音时顺势轻触消音 5 弦，低音线条会更干净。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and fingerings in add9's J-pop chord library (IV–iii–vi sevenths, slash dominants, and Yorushika-style held-fifth shapes).",
+            "source_zh": "指法来自 add9 的 J-pop 和弦库，按音程与手感逐条核对（涵盖 IV–iii–vi 七和弦连接、F/G 属挂留与日系保留五度指型）。",
+        },
+        "city-pop": {
+            "vids": ["cp-ogs-cmaj7", "cp-ogs-dm7", "cp-ogs-fm9", "cp-ogs-f-over-g"],
+            "title_en": "Playable City pop I–ii–iv–V turnaround (Standard tuning)",
+            "title_zh": "可直接上手的 City pop 都市感进行（标准调弦）",
+            "why_en": "Pairs crisp A-string-root Cmaj7 and Dm7 shapes with a glossy borrowed minor-iv Fm9 (x8688x), then lands on the signature F/G (G9sus4) dominant for effortless 1980s Tokyo groove.",
+            "why_zh": "用紧致的 A 弦根音 Cmaj7 与 Dm7 过渡到充满都市怀旧感的借用小四级 Fm9（x8688x），再落到经典的 F/G（G9sus4）属挂留和弦，瞬间出 80 年代 City pop 味道。",
+            "tips_en": [
+                ("Keep every note tight with left-hand muting:", "Because Cmaj7 (x3545x), Dm7 (x5756x), and Fm9 (x8688x) have no open strings, releasing finger pressure slightly gives instant rhythmic staccato."),
+                ("Skip the low E and high E on the first three chords:", "Staying on the inner four strings (A–D–G–B) keeps rhythm cutting crisp and leaves room for bass."),
+                ("Resolve cleanly to F/G (3x321x):", "Shift down to fret 3 and let the warm suspended dominant hang for a full bar before looping back to Cmaj7."),
+            ],
+            "tips_zh": [
+                ("善用左手松手制音：", "前三个和弦（x3545x、x5756x、x8688x）全部无空弦，左手微微松力就能切出干脆的十六分音符切音。"),
+                ("集中在中间四弦（A–D–G–B）：", "避开 6 弦与 1 弦，音色紧凑不发散，给贝斯和合成器留出清晰频段。"),
+                ("落到 F/G（3x321x）留白：", "换到 3 品的 G9sus4 时放慢切音或拉长一拍，衔接回 Cmaj7 极顺滑。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and rhythm playability in add9's City pop chord library (compact sevenths, cutting voicings, and IV/V slash dominants).",
+            "source_zh": "指法来自 add9 的 City pop 和弦库，按音程与切音手感逐条核对（涵盖紧凑七九和弦、高音切音与 IV/V 属挂留）。",
+        },
+        "bossa-nova": {
+            "vids": ["rb-ipanema-a6", "rb-ipanema-g7", "jgo-ipanema-ab13sus4", "jgo-ipanema-ab13"],
+            "title_en": "Playable Bossa nova turnaround study (Standard tuning)",
+            "title_zh": "可直接上手的 Bossa nova 伴奏与终止进行（标准调弦）",
+            "why_en": "Combines warm 4-note thumb-bass grips (A6 and G7) with the classic Bossa nova turnaround where dropping one finger on the G string turns Ab13sus4 (4x466x) into Ab13 (4x456x).",
+            "why_zh": "结合经典的四音拇指低音指型（A6、G7）与 Bossa nova 标志性终止衔接：只需将 G 弦手指回落一品，即可把 Ab13sus4（4x466x）平滑解决为 Ab13（4x456x）。",
+            "tips_en": [
+                ("Pluck bass + upper three strings together:", "Use your right-hand thumb on the low E string and index, middle, and ring fingers on D, G, and B—skip the muted A string."),
+                ("Watch the single-finger drop at the end:", "Moving from Ab13sus4 (4x466x) to Ab13 (4x456x) keeps three fingers anchored while only the G string steps down from fret 6 to fret 5."),
+                ("Keep dynamics gentle and syncopated:", "Let the thumb hold a steady pulse while the upper three fingers anticipate the beat."),
+            ],
+            "tips_zh": [
+                ("拇指拨低音、三指齐奏中音区：", "右手拇指负责低音 E 弦，食指、中指、无名指轻抓 D、G、B 三弦，自然跳过被消音的 A 弦。"),
+                ("留意结尾的单指解决：", "从 Ab13sus4（4x466x）到 Ab13（4x456x）保持三根手指不动，仅将 G 弦从 6 品退到 5 品即可完成张力释放。"),
+                ("轻柔切分律动：", "拇指稳住拍点，上方三指用轻微的切分音节奏带出巴西律动感。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and fingerstyle ergonomics in add9's Bossa nova chord library (6/9 tonics, minor sixths, and 13sus4→13 turnarounds).",
+            "source_zh": "指法来自 add9 的 Bossa nova 和弦库，按音程与指弹手感逐条核对（涵盖 6/9 主和弦、小六和弦与 13sus4→13 终止连接）。",
+        },
+        "lofi": {
+            "vids": ["gwo-lofi-gs7s9", "gwo-lofi-am9", "gwo-lofi-d13b9", "gwo-lofi-gmaj9"],
+            "title_en": "Playable Lo-fi ii–V–I loop under a shared top note (Standard tuning)",
+            "title_zh": "可直接上手的 Lo-fi 共同高音循环进行（标准调弦）",
+            "why_en": "Holds a steady B note on the high E string (fret 7) across G#7#9, Am9, and D13b9 before resolving gently into Gmaj9 (x 10 9 11 10 x)—creating a dreamy, hypnotic chord loop.",
+            "why_zh": "前三个和弦（G#7#9、Am9、D13b9）在高音 E 弦 7 品保持同一个 B 音持续不变，最后温柔解决到 Gmaj9（x 10 9 11 10 x），形成极具催眠感的 Lo-fi 经典循环。",
+            "tips_en": [
+                ("Keep the shared top note steady:", "On G#7#9, Am9, and D13b9, keep the 7th fret on the high E string ringing softly so the melody ties all three chords together."),
+                ("Use your neck pickup or soft finger strums:", "Roll off a touch of guitar tone and brush slowly from low to high for warm tape-like texture."),
+                ("Shift smoothly into Gmaj9:", "After D13b9 (10 x 10 8 7 7), your index finger is right next to fret 9–10 for an easy landing on Gmaj9 (x 10 9 11 10 x)."),
+            ],
+            "tips_zh": [
+                ("让高音 7 品成为听觉锚点：", "弹 G#7#9、Am9、D13b9 时让高音 E 弦 7 品的 B 音柔和突出，三个和弦的过渡会浑然一体。"),
+                ("放柔音色与拨弦力度：", "电吉他可切到琴颈拾音器并微关 Tone 旋钮，用指腹慢扫出温暖的磁带质感。"),
+                ("顺手落回 Gmaj9：", "弹完 10 品附近的 D13b9 后，左手几乎不用大跨度移动即可直接落到 Gmaj9（x 10 9 11 10 x）。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and voice leading in add9's Lo-fi chord library (shared-top loops, soft inversions, and sixth-ninth colors).",
+            "source_zh": "指法来自 add9 的 Lo-fi 和弦库，按音程与声部连接逐条核对（涵盖共同高音循环、柔和转位与六九和弦）。",
+        },
+        "indie": {
+            "vids": ["pg-jangle-e-aadd9", "pg-jangle-e-badd11", "pg-jangle-e-cmaj7", "pg-jangle-e-g6"],
+            "title_en": "Playable Jangle pop sliding E-shape progression (Standard tuning)",
+            "title_zh": "可直接上手的 Jangle pop 空弦平移进行（标准调弦）",
+            "why_en": "Uses one single E-major-style grip slid across frets 5 → 7 → 8 → 3 while leaving the top two strings (B and high E) open—turning one movable hand shape into four chimey indie chords.",
+            "why_zh": "全程只用一个开放 E 和弦手型，依次在 5 品 → 7 品 → 8 品 → 3 品平移，同时始终放开高音 B 弦与高音 E 弦，一个手型就能弹出四个充满钟鸣感的独立摇滚和弦。",
+            "tips_en": [
+                ("Don't flatten your index finger into a full barre:", "Only fret the low E string with your index fingertip (or thumb) so the open B and high E strings ring brightly."),
+                ("Keep your hand shape locked while sliding:", "Your fingers never rearrange—slide the exact same grip between frets 5, 7, 8, and 3."),
+                ("Arpeggiate with a bright pick:", "Picking through the fretted bass notes into the open treble strings highlights the classic jangle-pop chime."),
+            ],
+            "tips_zh": [
+                ("不要把食指压死成大横按：", "只按实低音 E 弦，下方留出空隙让 B 弦和高音 E 弦自由空弦共鸣。"),
+                ("保持手型完全不变直接滑动：", "四组和弦指型完全一致，换和弦时无需重新排手指，只需精准滑到 5、7、8、3 品。"),
+                ("配合清亮拨片分解：", "用较薄或明亮的拨片由低到高分解拨弦，能把空弦泛音的钟鸣感发挥到极致。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and playability in add9's Jangle pop chord library (Standard movable drones, Open E, and Whole step up tunings).",
+            "source_zh": "指法来自 add9 的 Jangle pop 和弦库，按音程与手感逐条核对（涵盖标准调弦空弦平移、Open E 与升全音调弦）。",
+        },
+        "bedroom-pop": {
+            "vids": ["bp-amaj7", "bp-dmaj7", "bp-dm7", "dj-demarco-a7-open"],
+            "title_en": "Playable Bedroom pop IVmaj7 → iv7 progression (Standard tuning)",
+            "title_zh": "可直接上手的 Bedroom pop 梦幻大转小进行（标准调弦）",
+            "why_en": "Uses four cozy open-position shapes in A major, moving from bright Amaj7 and Dmaj7 into the bittersweet minor-iv Dm7 before landing on a laid-back open A7.",
+            "why_zh": "采用四个轻松的开放把位和弦，从明亮温暖的 Amaj7 与 Dmaj7 转入微甜带酸的小四级 Dm7，再落回松弛的开放 A7，是卧室流行最经典的和声情绪。",
+            "tips_en": [
+                ("Notice the 1-fret shift from Dmaj7 to Dm7:", "Dmaj7 (xx0222) drops just the B and high E strings down one fret to become Dm7 (xx0211)."),
+                ("Let open strings bloom:", "Mute the low E string so the open A and D bass notes stay warm and intimate."),
+                ("Try Open D tuning below for one-finger drones:", "Scroll down to the Open D section for lush alternate-tuning voicings that need only one or two fretted fingers."),
+            ],
+            "tips_zh": [
+                ("感受 Dmaj7 到 Dm7 的半音情绪落差：", "从 Dmaj7（xx0222）到 Dm7（xx0211）只需把高音两弦降一品，立刻从明媚转入微醺怀旧。"),
+                ("避开低音 E 弦保持亲密感：", "以开放 A 弦与 D 弦作为低音，轻扫高音弦会让整体听感更柔和。"),
+                ("进阶可看下方 Open D 调弦：", "页面下方还收录了 Open D 持续音指型，一两根手指就能按出梦幻饱满的和声。"),
+            ],
+            "source_en": "Voicings checked for interval accuracy and beginner-friendly playability in add9's Bedroom pop chord library (open sevenths, barre shapes, and Open D drones).",
+            "source_zh": "指法来自 add9 的 Bedroom pop 和弦库，按音程与易弹度逐条核对（涵盖开放七和弦、横按把位与 Open D 持续音）。",
+        },
     }
+    for sid in STYLE_ORDER:
+        assert sid in genre_guides, f"Missing playable guide for {sid}"
 
     def render_bench(is_zh: bool) -> str:
         tabs = []
@@ -932,7 +1067,7 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             cta_btn = "前往 App Store 下载 add9"
         else:
             title = "add9 — Guitar Chord Voicing App & Finder by Genre (iOS)"
-            desc = "No more boring chords. add9 is an offline guitar chord voicing app for iPhone and iPad covering Jazz, Shoegaze, Math rock, Midwest emo, Neo-soul, J-pop, City pop, and Bossa nova—with reverse chord finder, capo, and progressions."
+            desc = "Offline iOS guitar chord voicing app for 11 genres—Jazz, Shoegaze, Math rock, Neo-soul, J-pop & Bossa nova—with reverse chord finder, capo, and progressions."
             kw = "guitar chord voicing app,guitar chord finder,add9 app,genre guitar chords,reverse chord finder,math rock chords,shoegaze guitar chords,jazz guitar voicings"
             h1 = "No more boring chords."
             lead = "Choose a chord and get the playable voicings players actually use in Jazz, Shoegaze, Math rock, Neo-soul, J-pop, and six more genres."
@@ -956,11 +1091,35 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             "name": "add9",
-            "operatingSystem": "iOS 17.0+",
+            "alternateName": "add9: No More Boring Chords",
+            "operatingSystem": "iOS 17.0+, iPadOS 17.0+",
             "applicationCategory": "MusicApplication",
+            "applicationSubCategory": "Guitar Chord & Voicing Reference",
+            "isAccessibleForFree": True,
             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
             "url": canonical,
             "downloadUrl": store_url,
+            "image": f"{base_url}/assets/og-cover.jpg",
+            "author": {"@type": "Person", "name": "Guangxing Ren"},
+            "sameAs": [
+                APP_STORE_US,
+                "https://github.com/jarvisrr/add9.com",
+            ],
+            "featureList": (
+                [
+                    "11 种音乐风格精选吉他和弦与指法",
+                    "按指型反向查和弦与可移动把位",
+                    "标准、FACGCE、Open D、Open E、升全音调弦与 0–12 品变调夹",
+                    "自定义风格收藏与离线和弦进行回放",
+                ]
+                if is_zh
+                else [
+                    "Curated guitar chord voicings across 11 music genres",
+                    "Reverse fretboard chord finder with movable shapes",
+                    "Standard, FACGCE, Open D, Open E, Whole step up tunings and Capo 0–12",
+                    "Custom genre collections and offline chord progression playback",
+                ]
+            ),
             "description": desc,
             "inLanguage": ["en", "zh-Hans"],
         }
@@ -1060,6 +1219,12 @@ def build_site(repo_root: Path, alt_chord_root: Path, base_url: str) -> None:
 
   <section class="section">
     <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>{esc('什么是 add9？' if is_zh else 'What is add9?')}</h2>
+          <p class="section-sub">{esc('add9 是一款专为 iPhone 和 iPad 打造的免费离线吉他和弦与风格指法 App。不同于只罗列海量基础大横按的传统和弦表，add9 按爵士、盯鞋、数学摇滚、中西部 emo、新灵魂乐、J-pop、City pop、Bossa nova、Lo-fi、Jangle pop 与 Bedroom pop 11 种风格组织可弹指法，内置按指法反查和弦、0–12 品真实变调夹换算、5 种调弦与和弦进行回放，全程无账号、无广告、无订阅。' if is_zh else 'add9 is a free, offline guitar chord voicing and reverse chord finder app for iPhone and iPad. Instead of burying players in basic cowboy chords, add9 organizes playable voicings across 11 genres—Jazz, Shoegaze, Math rock, Midwest emo, Neo-soul / R&B, J-pop, City pop, Bossa nova, Lo-fi, Jangle pop, and Bedroom pop—with accurate capo (0–12) pitch transposition, 5 tunings, custom genres, and offline chord progression playback, with no account, no ads, and no subscription.')}</p>
+        </div>
+      </div>
       <div class="cta-band">
         <div>
           <h2>{esc(cta_h2)}</h2>
